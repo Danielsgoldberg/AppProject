@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101479709203",
+    "project_id": "appprojectgrp8-9f8c8",
+    "storage_bucket": "appprojectgrp8-9f8c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101479709203:android:db7809d2aeecd609799de6",
+        "android_client_info": {
+          "package_name": "com.grp8.appproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgygXqOtjoBmZK3_YrBEp0WUmXSTXmKos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

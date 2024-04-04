@@ -1,4 +1,4 @@
-package com.grp8.appproject.ui.components
+package com.grp8.appproject.integrations.firestore.authentication
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import kotlinx.coroutines.launch
 
 @Composable
-fun Login(service:FireStore, nav: NavController) {
+fun Login(service:BasicAuthClient){//}, nav: NavController) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -34,9 +34,11 @@ fun Login(service:FireStore, nav: NavController) {
         }
         Button(onClick = {
             scope.launch {
-                val user = service.login(email.value, password.value)
-                nav.navigate("Horses")
+                val user = service.signIn(email.value, password.value)
+                //nav.navigate("Horses")
             }
-        })
+        }) {
+            Text(text = "Login")
+        }
     }
 }

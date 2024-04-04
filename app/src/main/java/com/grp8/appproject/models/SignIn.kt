@@ -5,7 +5,7 @@ import android.provider.ContactsContract.CommonDataKinds.Email
 
 data class BasicUser(
     val userId: String,
-    val email: Email?,
+    val email: String,
     val displayName: String="",
     val profileIcon: Uri= Uri.EMPTY
 )

@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 
 @Composable
-fun Login(service:BasicAuthClient, nav:() -> NavController){
+fun Login(service:BasicAuthClient, nav:(string:String) -> NavController){
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -35,7 +35,7 @@ fun Login(service:BasicAuthClient, nav:() -> NavController){
         Button(onClick = {
             scope.launch {
                 val user = service.signIn(email.value, password.value)
-                nav()
+                nav("Home")
             }
         }) {
             Text(text = "Login")

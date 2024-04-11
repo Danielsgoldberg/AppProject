@@ -1,4 +1,4 @@
-package com.grp8.appproject
+package com.grp8.appproject.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

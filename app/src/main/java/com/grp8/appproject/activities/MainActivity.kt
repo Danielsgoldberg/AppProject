@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.grp8.appproject.ui.screens.Cocktails
 import com.grp8.appproject.ui.screens.Home
+import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.theme.AppProjectTheme
 
 class MainActivity : ComponentActivity() {

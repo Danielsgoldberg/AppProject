@@ -1,5 +1,6 @@
 package com.grp8.appproject.integrations.firestore.authentication
 
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,7 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import kotlinx.coroutines.launch
 
 @Composable
-fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
+fun Signup(Ok:() -> Unit, Cancel:() -> Unit){
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -31,21 +32,21 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
         }
-        //Lav en error her også
         Button(onClick = {
             scope.launch {
-                val user = service.signIn(email.value, password.value)
                 Ok()
             }
         }) {
-            Text(text = "Login")
+            Text(text = "Sign up")
         }
+        //Lav en error her også
+
         Button(onClick = {
             scope.launch {
-                Signup()
+                Cancel()
             }
         }) {
-            Text(text = "Signup")
+            Text(text = "Back")
         }
     }
 }

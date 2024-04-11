@@ -1,49 +1,30 @@
 package com.grp8.appproject.navigation
 
+import android.provider.ContactsContract
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.grp8.appproject.integrations.firestore.authentication.BasicAuthClient
+import com.grp8.appproject.integrations.firestore.authentication.Login
+import com.grp8.appproject.integrations.firestore.authentication.Signup
+import com.grp8.appproject.ui.screens.Home
 
 @Composable
 fun Navigation(controller: NavHostController) {
     NavHost(navController = controller, startDestination = "Login") {
         composable("Login") {
-            NavController(title = "Login", navigationText = "To Home") {
-                controller.navigate("Home"){
-                    restoreState=true
-                }
-            }
-        }
-        composable("Home") {
-            NavController(
-                title = "Home",
-                navigationText = "To Search",
-                backHandler = true,
-                back = { controller.popBackStack("Login",inclusive = false,saveState = true) }) {
-                controller.navigate("Home")
-            }
-        }
-        composable("Profile") {
-            NavController(
-                title = "Profile",
-                navigationText = "To Search",
-                backHandler = true,
-                back = { controller.popBackStack("Login",inclusive = false,saveState = true) }) {
-                controller.navigate("Home")
-            }
+            Login(service= BasicAuthClient(), Ok = { controller.navigate("Home")}, Signup = {controller.navigate("Signup")})
         }
 
-        composable("Search") {
-            NavController(
-                title = "Search",
-                navigationText = "<- Back",
-                backHandler = true,
-                back = { controller.popBackStack("Home",inclusive = false, saveState = true) }) {
-                controller.popBackStack("Login", inclusive = false)
-            }
+        composable("Signup") {
+            Signup(Ok = {controller.navigate("Home")}, Cancel = {controller.navigate("Login")})
+        }
+
+        composable("Home") {
+            Home(Cancel = { controller.navigate("Login")})
         }
 
     }

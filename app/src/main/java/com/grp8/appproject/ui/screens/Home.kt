@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,11 +24,17 @@ import com.grp8.appproject.ui.components.BottomBar
 import kotlinx.coroutines.launch
 
 @Composable
-fun Home() {
+fun Home(Cancel:() -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Button(onClick = {
+            Cancel()
+            }
+        ) {
+            Text(text = "Back")
+        }
 
         Text(
             text = "Welcome to Virtual Bartender",

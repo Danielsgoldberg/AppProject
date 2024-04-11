@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.grp8.appproject.ui.screens.Cocktails
+import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.theme.AppProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Cocktails()
+                    Home()
                 }
             }
         }

@@ -54,7 +54,7 @@ fun BottomBar(modifier: Modifier = Modifier, navigate:(screen: String) -> Unit) 
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = "Account",
-                
+
                 tint = Color.White
             )
 

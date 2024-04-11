@@ -1,6 +1,7 @@
 package com.grp8.appproject.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.annotations.concurrent.Background
 import com.grp8.appproject.R
 import com.grp8.appproject.ui.components.BottomBar
 import kotlinx.coroutines.launch
@@ -27,21 +29,8 @@ fun Home() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.Transparent)
     ) {
-
-        Text(
-            text = "Welcome to Virtual Bartender",
-            color = Color.Black,
-            fontFamily = FontFamily.Cursive,
-            fontSize = 48.sp, // Adjust the font size as needed
-
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp), // Add padding for better visibility
-            textAlign = TextAlign.Center // Center the text horizontally
-
-        )
-
 
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -53,8 +42,18 @@ fun Home() {
                 contentScale = ContentScale.Crop
             )
 
-
-
+            Text(
+                text = "Welcome to Virtual Bartender",
+                color = Color.Black,
+                fontFamily = FontFamily.Serif,
+                fontSize = 40.sp, // Adjust the font size as needed
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp) // Add padding for better visibility
+                    .background(Color.Transparent)
+                    .align(Alignment.Center),
+                textAlign = TextAlign.Center // Center the text horizontally
+            )
             // Add BottomBar here
             BottomBar(
                 modifier = Modifier.align(Alignment.BottomCenter),

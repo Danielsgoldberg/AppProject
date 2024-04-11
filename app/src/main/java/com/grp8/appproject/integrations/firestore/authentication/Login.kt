@@ -10,11 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import com.grp8.appproject.controllers.NavController
 
 @Composable
 fun Login(service:BasicAuthClient, nav:() -> NavController){

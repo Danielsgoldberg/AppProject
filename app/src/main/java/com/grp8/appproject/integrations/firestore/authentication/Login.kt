@@ -12,11 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import com.grp8.appproject.controllers.NavController
 
 @Composable
-fun Login(service:BasicAuthClient, nav:NavController){
+fun Login(service:BasicAuthClient, nav:() -> NavController){
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -36,7 +37,7 @@ fun Login(service:BasicAuthClient, nav:NavController){
         Button(onClick = {
             scope.launch {
                 val user = service.signIn(email.value, password.value)
-                nav.navigate("Home")
+                nav()
             }
         }) {
             Text(text = "Login")

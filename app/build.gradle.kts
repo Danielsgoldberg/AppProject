@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.google.android.gms.play.services)
     implementation(libs.google.firebase.storage)
 
+    val navVersion = "2.7.7"
+    implementation("androidx.navigation:navigation-compose:$navVersion")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

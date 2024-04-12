@@ -12,6 +12,8 @@ import com.grp8.appproject.integrations.firestore.authentication.Login
 import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.ui.components.ScreenScaffold
 import com.grp8.appproject.ui.screens.Home
+import com.grp8.appproject.ui.screens.Profile
+import com.grp8.appproject.ui.screens.Search
 
 @Composable
 fun Navigation(controller: NavHostController) {
@@ -33,6 +35,24 @@ fun Navigation(controller: NavHostController) {
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
                 Home(Cancel = { controller.navigate("Login") })
+            }
+        }
+
+        composable("Search") {
+            ScreenScaffold(
+                Search = { controller.navigate("Search") },
+                Home = { controller.navigate("Home") },
+                Profile = { controller.navigate("Profile") }) {
+                Search()
+            }
+        }
+
+        composable("Profile") {
+            ScreenScaffold(
+                Search = { controller.navigate("Search") },
+                Home = { controller.navigate("Home") },
+                Profile = { controller.navigate("Profile") }) {
+                Profile()
             }
         }
 

@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //Måske dette skal fjernes men så virker content() ikke
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenScaffold(
     Search: () -> Unit,

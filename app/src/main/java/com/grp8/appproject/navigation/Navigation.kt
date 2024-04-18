@@ -1,9 +1,6 @@
 package com.grp8.appproject.navigation
 
-import android.provider.ContactsContract
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -47,7 +44,7 @@ fun Navigation(controller: NavHostController) {
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
-                Search(Find = {controller.navigate("SearchResults")})
+                Search(find = {controller.navigate("SearchResults")})
             }
         }
 
@@ -64,7 +61,7 @@ fun Navigation(controller: NavHostController) {
 
          composable("SearchResults"){
              SearchResults(
-                 Cancel = { controller.navigate("Search") })
+                 cancel = { controller.navigate("Search") })
          }
 
     }

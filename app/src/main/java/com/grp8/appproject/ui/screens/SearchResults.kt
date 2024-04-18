@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 
 @Composable
-fun SearchResults(Cancel:() -> Unit) {
+fun SearchResults(cancel:() -> Unit) {
     val scope = rememberCoroutineScope()
     Column(
         modifier = Modifier
@@ -27,7 +27,7 @@ fun SearchResults(Cancel:() -> Unit) {
     ) {
         IconButton(onClick = {
             scope.launch {
-                Cancel()
+                cancel()
             }}) {
             Icon(
                 imageVector = Icons.Default.KeyboardArrowLeft,

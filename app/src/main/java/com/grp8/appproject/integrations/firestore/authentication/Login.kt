@@ -32,6 +32,7 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+    val errorMessage = remember { mutableStateOf<String?>(null) }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -62,6 +63,13 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                     shape = RoundedCornerShape(16.dp)
                 )
             }
+            errorMessage.value?.let { message ->
+                Text(
+                    message,
+                    color = Color.Red,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
             //Lav en error her også
             Button(onClick = {
                 scope.launch {
@@ -78,13 +86,7 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                             throw LoginException("Invalid email or password.")
                         }
                     } catch (e: LoginException) {
-                        // Handle login exceptions
-                        // For example, you can show an error message to the user
-                        // or log the exception for debugging purposes
-                        println("Login failed: ${e.message}")
-                    } catch (e: LoginException) {
-                        // Handle other exceptions
-                        println("Unexpected error occurred: ${e.message}")
+                        errorMessage.value = e.message
                     }
                     //Ok()
                 }

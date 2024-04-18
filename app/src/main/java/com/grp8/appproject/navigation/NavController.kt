@@ -16,12 +16,11 @@ fun NavController(
     back: () -> Unit = {},
     navigate: () -> Unit
 ) {
-    if (backHandler) {
+    if (backHandler) { //Skal dette være med?
         BackHandler {
             back()
         }
     }
-    val count = rememberSaveable { mutableIntStateOf(0) }
 
     Column {
         Text(title)

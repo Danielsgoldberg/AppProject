@@ -36,7 +36,7 @@ fun SearchResults(Cancel:() -> Unit) {
             )
         }
         Text(
-            text = "Hej, du er nu på Resultat siden fra Search :)",
+            text = "Hej, nu skal det virke",
             color = Color.Black,
             fontFamily = FontFamily.SansSerif,
             fontSize = 48.sp,

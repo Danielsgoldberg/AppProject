@@ -29,20 +29,12 @@ import com.grp8.appproject.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun Home(Cancel:() -> Unit) {
+fun Home() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.End
     ) {
-        IconButton(onClick = { Cancel() }) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Log out",
-                tint = Color.Black
-            )
-        }
-
         Text(
             text = "Welcome to Virtual Bartender",
             color = Color.Black,

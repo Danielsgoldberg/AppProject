@@ -1,5 +1,6 @@
 package com.grp8.appproject.integrations.firestore.authentication
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+    val errorMessage = remember { mutableStateOf<String?>(null) }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -62,11 +64,35 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                     shape = RoundedCornerShape(16.dp)
                 )
             }
-            //Lav en error her også
+            errorMessage.value?.let { message ->
+                Text(
+                    message,
+                    color = Color.Red,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
             Button(onClick = {
                 scope.launch {
-                    val user = service.signIn(email.value, password.value)
-                    Ok()
+                    try {
+                        if (email.value.isBlank() && password.value.isBlank()) {
+                            throw LoginException("Email and password cannot be empty.")
+
+                        } else if(email.value.isBlank()){
+                            throw LoginException("Email cannot be empty.")
+                        } else if(password.value.isBlank()){
+                            throw LoginException("Password cannot be empty.")
+                        }
+
+                        val user = service.signIn(email.value, password.value)
+                        Log.v("Login", "Test User: $user")
+                        if (user.error == null) {
+                            Ok()
+                        } else {
+                            throw LoginException("Invalid email or password.")
+                        }
+                    } catch (e: LoginException) {
+                        errorMessage.value = e.message
+                    }
                 }
             }) {
                 Text(text = "Login")

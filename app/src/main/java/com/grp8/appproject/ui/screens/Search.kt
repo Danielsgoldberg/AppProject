@@ -30,8 +30,10 @@ fun Search() {
                 .fillMaxWidth()
                 .padding(16.dp),
             textAlign = TextAlign.Center // Center the text horizontally
-
         )
     }
 }
+
+
+
 

@@ -26,7 +26,10 @@ fun Navigation(controller: NavHostController) {
         }
 
         composable("Signup") {
-            Signup(Ok = { controller.navigate("Home") }, Cancel = { controller.navigate("Login") })
+            Signup(
+                service = BasicAuthClient(),
+                Ok = { controller.navigate("Home") },
+                Cancel = { controller.navigate("Login") })
         }
 
         composable("Home") {
@@ -34,7 +37,7 @@ fun Navigation(controller: NavHostController) {
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
-                Home(Cancel = { controller.navigate("Login") })
+                Home()
             }
         }
 
@@ -52,7 +55,9 @@ fun Navigation(controller: NavHostController) {
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
-                Profile()
+                Profile(
+                    service = BasicAuthClient(),
+                    Cancel = { controller.navigate("Login") })
             }
         }
 

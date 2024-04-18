@@ -1,6 +1,7 @@
 package com.grp8.appproject.integrations.firestore.authentication
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -21,13 +22,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @Composable
-fun Signup(Ok:() -> Unit, Cancel:() -> Unit){
+fun Signup(service:BasicAuthClient, Ok:() -> Unit, Cancel:() -> Unit){
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+    val errorMessage = remember { mutableStateOf<String?>(null) }
     Column() {
         IconButton(onClick = {
             scope.launch {
@@ -51,9 +54,35 @@ fun Signup(Ok:() -> Unit, Cancel:() -> Unit){
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
         }
+        errorMessage.value?.let { message ->
+            Text(
+                message,
+                color = Color.Red,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
         Button(onClick = {
             scope.launch {
-                Ok()
+                try {
+                    if (email.value.isBlank() && password.value.isBlank()) {
+                        throw LoginException("Email and password cannot be empty.")
+
+                    } else if(email.value.isBlank()){
+                        throw LoginException("Email cannot be empty.")
+                    } else if(password.value.isBlank()){
+                        throw LoginException("Password cannot be empty.")
+                    }
+
+                    val user = service.signUp(email.value, password.value)
+                    Log.v("Login", "Test User: $user")
+                    if (user.error == null) {
+                        Ok()
+                    } else {
+                        throw LoginException("Invalid email or password.")
+                    }
+                } catch (e: LoginException) {
+                    errorMessage.value = e.message
+                }
             }
         }
             ) {

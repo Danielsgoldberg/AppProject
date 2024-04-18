@@ -14,6 +14,7 @@ import com.grp8.appproject.ui.components.ScreenScaffold
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.screens.Search
+import com.grp8.appproject.ui.screens.SearchResults
 
 @Composable
 fun Navigation(controller: NavHostController) {
@@ -43,7 +44,7 @@ fun Navigation(controller: NavHostController) {
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
-                Search()
+                Search(Find = {controller.navigate("SearchResults")})
             }
         }
 
@@ -55,6 +56,11 @@ fun Navigation(controller: NavHostController) {
                 Profile()
             }
         }
+
+         composable("SearchResults"){
+             SearchResults(
+                 Cancel = { controller.navigate("Search") })
+         }
 
     }
 }

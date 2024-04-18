@@ -52,7 +52,7 @@ fun Search(find:() -> Unit) {
                 )
             }
             Row {
-                Text(text = "Alcohol: ")
+                Text(text = "Alcohol:  ")
                 TextField(
                     value = alcohol.value,
                     onValueChange = { newText -> alcohol.value = newText},
@@ -61,7 +61,7 @@ fun Search(find:() -> Unit) {
                 )
             }
             Row {
-                Text(text = "Mixer: ")
+                Text(text = "Mixer:  ")
                 TextField(
                     value = mixer.value,
                     onValueChange = { newText -> mixer.value = newText},

@@ -65,8 +65,28 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
             //Lav en error her også
             Button(onClick = {
                 scope.launch {
-                    val user = service.signIn(email.value, password.value)
-                    Ok()
+                    //val user = service.signIn(email.value, password.value)
+                    try {
+                        if (email.value.isBlank() || password.value.isBlank()) {
+                            throw LoginException("Email and password cannot be empty.")
+                        }
+
+                        val user = service.signIn(email.value, password.value)
+                        if (user != null) {
+                            Ok()
+                        } else {
+                            throw LoginException("Invalid email or password.")
+                        }
+                    } catch (e: LoginException) {
+                        // Handle login exceptions
+                        // For example, you can show an error message to the user
+                        // or log the exception for debugging purposes
+                        println("Login failed: ${e.message}")
+                    } catch (e: LoginException) {
+                        // Handle other exceptions
+                        println("Unexpected error occurred: ${e.message}")
+                    }
+                    //Ok()
                 }
             }) {
                 Text(text = "Login")

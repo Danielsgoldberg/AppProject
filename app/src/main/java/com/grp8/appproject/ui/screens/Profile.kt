@@ -43,7 +43,7 @@ fun Profile(service: BasicAuthClient, Cancel:() -> Unit) {
         Button(onClick = {
             service.signOut()
             Cancel() }) {
-            Text(text = "Sign out")
+            Text(text = "Signout")
         }
     }
 }

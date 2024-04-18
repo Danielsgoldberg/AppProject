@@ -1,5 +1,6 @@
 package com.grp8.appproject.integrations.firestore.authentication
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,17 +71,21 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            //Lav en error her også
             Button(onClick = {
                 scope.launch {
-                    //val user = service.signIn(email.value, password.value)
                     try {
-                        if (email.value.isBlank() || password.value.isBlank()) {
+                        if (email.value.isBlank() && password.value.isBlank()) {
                             throw LoginException("Email and password cannot be empty.")
+
+                        } else if(email.value.isBlank()){
+                            throw LoginException("Email cannot be empty.")
+                        } else if(password.value.isBlank()){
+                            throw LoginException("Password cannot be empty.")
                         }
 
                         val user = service.signIn(email.value, password.value)
-                        if (user != null) {
+                        Log.v("Login", "Test User: $user")
+                        if (user.error == null) {
                             Ok()
                         } else {
                             throw LoginException("Invalid email or password.")
@@ -88,7 +93,6 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                     } catch (e: LoginException) {
                         errorMessage.value = e.message
                     }
-                    //Ok()
                 }
             }) {
                 Text(text = "Login")

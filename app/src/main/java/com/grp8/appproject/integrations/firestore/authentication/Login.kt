@@ -35,8 +35,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("1234@hotmail.com") }
+    val password = remember { mutableStateOf("567890") }
     val scope = rememberCoroutineScope()
     val errorMessage = remember { mutableStateOf<String?>(null) }
     Image(

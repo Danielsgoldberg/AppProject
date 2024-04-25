@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 @Composable
-fun CocktailComponent()
+fun CocktailComponent(backToSearch:(String) -> Unit)
 {
 
     val ktorService = KtorClient()
@@ -55,7 +55,8 @@ fun CocktailComponent()
         LazyColumn{
             items(data.value.drinks) {
                 Log.v("Ktor Test", it.toString())
-                IngredientItem(it)
+                IngredientItem(it, backToSearch = backToSearch)
+                var drinkName = it.strIngredient1.toString()
             }
         }
     }

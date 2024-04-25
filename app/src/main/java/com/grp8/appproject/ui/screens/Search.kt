@@ -23,8 +23,12 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun Search(find:() -> Unit, findIngredients:() -> Unit) {
+fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?) {
     val alcohol = remember { mutableStateOf("") }
+    if (searchParameter!=null)
+    {
+        alcohol.value = searchParameter
+    }
     val mixer = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     //val searchResult = remember { mutableStateOf("") }
@@ -54,6 +58,7 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit) {
             Row {
                 Text(text = "Alcohol:  ")
                 TextField(
+
                     value = alcohol.value,
                     onValueChange = { newText -> alcohol.value = newText},
                     placeholder = { Text("Enter specific alcohol")},

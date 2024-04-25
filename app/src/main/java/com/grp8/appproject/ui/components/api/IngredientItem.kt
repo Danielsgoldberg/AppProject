@@ -5,15 +5,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
-fun IngredientItem(drinks: Drink)
+fun IngredientItem(drinks: Drink, backToSearch:(String) -> Unit)
 {
+    val scope = rememberCoroutineScope()
     Column {
-        Text("I want: ")
         Row {
             Button(onClick = {
-
+                scope.launch {
+                    backToSearch(drinks.strIngredient1.toString())
+                }
             }) {
                 Text(text = drinks.strIngredient1.toString())
             }

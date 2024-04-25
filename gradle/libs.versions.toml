@@ -14,6 +14,7 @@ googlefirebase = "32.8.0"
 googleplayserviceauth = "21.0.0"
 googlegmsservices = "4.4.1"
 navigationRuntimeKtx = "2.7.7"
+firebaseCrashlyticsBuildtools = "2.9.9"
 [libraries]
 #Firebase
 google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "googlefirebase" }
@@ -44,6 +45,7 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

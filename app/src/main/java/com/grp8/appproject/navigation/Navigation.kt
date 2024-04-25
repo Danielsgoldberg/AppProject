@@ -8,6 +8,7 @@ import com.grp8.appproject.integrations.firestore.authentication.BasicAuthClient
 import com.grp8.appproject.integrations.firestore.authentication.Login
 import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.ui.components.ScreenScaffold
+import com.grp8.appproject.ui.components.api.CocktailComponent
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.screens.Search
@@ -44,7 +45,9 @@ fun Navigation(controller: NavHostController) {
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
-                Search(find = {controller.navigate("SearchResults")})
+                Search(find = {controller.navigate("SearchResults")}, findIngredients = {
+                    controller.navigate("IngredientList")
+                })
             }
         }
 
@@ -63,6 +66,11 @@ fun Navigation(controller: NavHostController) {
              SearchResults(
                  cancel = { controller.navigate("Search") })
          }
+
+        composable("IngredientList")
+        {
+            CocktailComponent()
+        }
 
     }
 }

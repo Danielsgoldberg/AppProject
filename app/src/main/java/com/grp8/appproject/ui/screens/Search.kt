@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun Search(find:() -> Unit) {
+fun Search(find:() -> Unit, findIngredients:() -> Unit) {
     val alcohol = remember { mutableStateOf("") }
     val mixer = remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
@@ -78,6 +78,14 @@ fun Search(find:() -> Unit) {
                     }
                 }) {
                     Text(text = "Search")
+                }
+                Button(onClick =  {
+                    scope.launch{
+                        findIngredients()
+                    }
+
+                }) {
+                    Text(text = "Find Ingredients")
                 }
             }
         }

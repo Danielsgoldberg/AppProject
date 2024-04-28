@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -60,27 +61,41 @@ fun Signup(service:BasicAuthClient, Ok:() -> Unit, Cancel:() -> Unit){
         contentDescription = "CocktailHomePage",
         contentScale = ContentScale.Crop
     )
+    Column {
+        IconButton(onClick = {
+            scope.launch {
+                Cancel()
+            }}) {
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                contentDescription = "Back",
+                tint = Color.Black,
+                modifier = Modifier.size(35.dp)
+            )
+        }
+    }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Column() {
-            IconButton(onClick = {
-                scope.launch {
-                    Cancel()
-                }}) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = "Back",
-                    tint = Color.Black
+            Text(
+                "Sign up",
+                fontSize = 50.sp,
+                modifier = Modifier.padding(bottom = 30.dp),
+                fontFamily = FontFamily.Serif,
+            )
+            Row(){
+                TextField(
+                    value = email.value,
+                    onValueChange = {newText -> email.value = newText},
+                    shape = RoundedCornerShape(16.dp),
+                    placeholder = { Text("Email") },
+                    modifier = Modifier
+                        .padding(bottom = 15.dp)
                 )
             }
-            Row(){
-                Text("Email: ")
-                TextField(value = email.value, onValueChange = { newText -> email.value = newText})
-            }
             Row() {
-                Text(text = "Password: ")
                 TextField(
                     value = password.value,
                     onValueChange = {newText -> password.value = newText},
@@ -90,6 +105,10 @@ fun Signup(service:BasicAuthClient, Ok:() -> Unit, Cancel:() -> Unit){
                     } else {
                         VisualTransformation.None
                     },
+                    shape = RoundedCornerShape(16.dp),
+                    placeholder = { Text(text = "Password") },
+                    modifier = Modifier
+                        .padding(bottom = 30.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Checkbox(

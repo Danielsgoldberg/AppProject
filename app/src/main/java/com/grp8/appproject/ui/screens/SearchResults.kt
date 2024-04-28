@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -47,5 +48,13 @@ fun SearchResults(cancel:() -> Unit) {
             textAlign = TextAlign.Center // Center the text horizontally
 
         )
+//        IconButton() {
+//            //Used to save as favorites for Profile
+//            Icon(
+//                imageVector = Icons.Default.Star,
+//                contentDescription = "Favorites",
+//                tint = Color.Black
+//            )
+//        }
     }
 }

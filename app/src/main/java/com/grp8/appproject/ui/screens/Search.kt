@@ -33,7 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -127,7 +129,11 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                         modifier = Modifier.fillMaxWidth()){
                         Text(
                             text = "Add ingredient:",
-                            modifier = Modifier.padding(4.dp, vertical = 13.dp)
+                            modifier = Modifier.padding(4.dp, vertical = 13.dp),
+                            style = TextStyle(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                         IconButton(onClick = { additionalIngredient.value = true }
                         ) {
@@ -160,10 +166,13 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                             }
                         },
                         colors = ButtonDefaults.buttonColors(Color.White),
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(8.dp)
+                            .height(45.dp),
                         border = BorderStroke(width=0.5.dp, color = Color.Black),
                     ) {
-                        Text(text = "Search", color = Color.Black)
+                        Text(text = "Search", color = Color.Black,
+                            style = TextStyle(
+                            fontSize = 16.sp))
                     }
                 }
                 Row(horizontalArrangement = Arrangement.Center,
@@ -175,10 +184,13 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                             }
                         },
                         colors = ButtonDefaults.buttonColors(Color.White),
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(8.dp)
+                            .height(50.dp),
                         border = BorderStroke(width=0.5.dp, color = Color.Black)
                     ) {
-                        Text(text = "Find ingredients", color = Color.Black)
+                        Text(text = "Find ingredients", color = Color.Black,
+                            style = TextStyle(
+                                fontSize = 16.sp))
                     }
                 }
             }

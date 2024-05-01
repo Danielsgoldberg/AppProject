@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -124,8 +125,11 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                 } else {
                     Row(horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxWidth()){
-                        IconButton(onClick = { additionalIngredient.value = true },
-                            modifier = Modifier.padding(start = 8.dp)
+                        Text(
+                            text = "Add ingredient:",
+                            modifier = Modifier.padding(4.dp, vertical = 13.dp)
+                        )
+                        IconButton(onClick = { additionalIngredient.value = true }
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,

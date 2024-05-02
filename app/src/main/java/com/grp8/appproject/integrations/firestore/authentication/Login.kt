@@ -70,7 +70,7 @@ fun Login(service:BasicAuthClient, Ok:(String) -> Unit, Signup:()->Unit){
                     placeholder = { Text("Email") },
                     modifier = Modifier
                         .padding(bottom = 15.dp)
-                        .background(Color.White)
+                        .background(Color.Transparent)
                 )
             }
             Row() {
@@ -83,7 +83,7 @@ fun Login(service:BasicAuthClient, Ok:(String) -> Unit, Signup:()->Unit){
                     placeholder = { Text(text = "Password") },
                     modifier = Modifier
                         .padding(bottom = 30.dp)
-                        .background(Color.White)
+                        .background(Color.Transparent)
                 )
             }
             errorMessage.value?.let { message ->

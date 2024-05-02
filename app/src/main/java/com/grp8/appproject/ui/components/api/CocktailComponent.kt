@@ -56,7 +56,7 @@ fun CocktailComponent(backToSearch:(String) -> Unit)
             modifier = Modifier.fillMaxWidth(0.4f)
             )
         {
-            CircularProgressIndicator(color = androidx.compose.ui.graphics.Color.Red, strokeWidth = 5.dp)
+            CircularProgressIndicator(color = androidx.compose.ui.graphics.Color.Black, strokeWidth = 5.dp)
         }
 
     } else {

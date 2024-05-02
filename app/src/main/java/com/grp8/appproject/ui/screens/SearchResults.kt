@@ -49,7 +49,7 @@ import com.grp8.appproject.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun SearchResults(cancel:() -> Unit) {
+fun SearchResults(cancel:() -> Unit, favoriteParameter: String?) {
     var isFavorite by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val name="Gin tonic"
@@ -119,11 +119,13 @@ fun SearchResults(cancel:() -> Unit) {
                                 modifier = Modifier.weight(1f)
                             )
                             IconButton(
-                                onClick = { isFavorite = !isFavorite },
+                                onClick = {
+                                    isFavorite = !isFavorite
+                                    favoriteParameter == name },
                                 modifier = Modifier.padding(start = 4.dp)
                             ) {
                                 Icon(
-                                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                    imageVector = if (isFavorite) {Icons.Default.Favorite} else Icons.Default.FavoriteBorder,
                                     contentDescription = "Favorites",
                                     tint = Color.Black
                                 )

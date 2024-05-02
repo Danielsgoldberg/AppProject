@@ -49,7 +49,7 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
     val alcohol = remember { mutableStateOf("") }
     if (searchParameter!=null)
     {
-        alcohol.value = searchParameter
+        alcohol.value = searchParameter.toString()
     }
     val mixer = remember { mutableStateOf("") }
     val additionalIngredient = remember { mutableStateOf(false) }

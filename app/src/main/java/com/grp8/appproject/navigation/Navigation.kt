@@ -71,10 +71,20 @@ fun Navigation(controller: NavHostController) {
             }
         }
 
-         composable("SearchResults"){
-             SearchResults(
-                 cancel = { controller.navigate("Search") })
-         }
+//         composable("SearchResults"){
+//             SearchResults(
+//                 cancel = { controller.navigate("Search") })
+//         }
+
+        composable(route = "SearchResults?favorite={favorite}",
+            arguments = listOf(
+                navArgument("favorite")
+                { defaultValue = "" })
+        ) { backStackEntry ->
+            SearchResults(
+                cancel = { controller.navigate("Search") },
+                favoriteParameter = backStackEntry.arguments?.getString("favorite") ?: "" )
+        }
 
         composable("IngredientList")
         {

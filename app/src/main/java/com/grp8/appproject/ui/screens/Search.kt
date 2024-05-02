@@ -76,6 +76,8 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
+
+
                     Text(
                         text = "Search",
                         color = Color.Black,

@@ -102,7 +102,7 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                         text = "Username: $username",
                         color = Color.Black,
                         fontFamily = FontFamily.SansSerif,
-                        fontSize = 27.sp,
+                        fontSize = 22.sp,
 
                         modifier = Modifier
                             .fillMaxWidth()
@@ -113,45 +113,36 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
-                ){
+                ) {
+                    Button(
+                        onClick = {
+                            scope.launch {
+                                findfavorites()
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(Color.White),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .height(45.dp),
+                        border = BorderStroke(width = 0.5.dp, color = Color.Black),
+                    ) {
+                        Text(
+                            text = "Favorites", color = Color.Black,
+                            style = TextStyle(
+                                fontSize = 16.sp
+                            )
+                        )
+                    }
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Button(onClick = {
                         service.signOut()
                         cancel()
                     }) {
                         Text(text = "Sign-out")
-                    }
-                }
-
-                Column()
-                {
-                    Box {
-                        Divider(
-                            color = Color.Black.copy(alpha = 0.35f),
-                            thickness = 2.dp,
-                            modifier = Modifier
-                                .align(Alignment.BottomStart)
-                                .fillMaxWidth()
-                        )
-
-                        Button(
-                            onClick = {
-                                scope.launch {
-                                    findfavorites()
-                                }
-                            },
-                            colors = ButtonDefaults.buttonColors(Color.White),
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .height(45.dp),
-                            border = BorderStroke(width = 0.5.dp, color = Color.Black),
-                        ) {
-                            Text(
-                                text = "Favorites", color = Color.Black,
-                                style = TextStyle(
-                                    fontSize = 16.sp
-                                )
-                            )
-                        }
                     }
                 }
             }

@@ -25,6 +25,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.grp8.appproject.R
@@ -60,13 +63,12 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                     .fillMaxWidth()
             )
             Image(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .fillMaxHeight(),
                 painter = painterResource(id = R.drawable.profilepicture),
                 contentDescription = "ProfilePicture",
                 contentScale = ContentScale.Crop,
-                alpha = 0.2f
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(CircleShape)
             )
             Text(
                 text = "Username: $username",

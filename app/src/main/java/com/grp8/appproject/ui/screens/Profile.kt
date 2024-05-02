@@ -109,20 +109,18 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                             .padding(16.dp),
                         textAlign = TextAlign.Center
                     )
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    {
-                        Button(onClick = {
-                            service.signOut()
-                            cancel()
-                        }) {
-                            Text(text = "Sign-out")
-                        }
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    Button(onClick = {
+                        service.signOut()
+                        cancel()
+                    }) {
+                        Text(text = "Sign-out")
                     }
                 }
-
 
                 Column()
                 {

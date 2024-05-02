@@ -1,5 +1,6 @@
 package com.grp8.appproject.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,12 +31,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.grp8.appproject.R
 
 
 @Composable
-fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Unit, username: String) {
+fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Unit) {
     val scope = rememberCoroutineScope()
+    val username = Firebase.auth.currentUser?.email
     Column(
         modifier = Modifier
             .fillMaxSize()

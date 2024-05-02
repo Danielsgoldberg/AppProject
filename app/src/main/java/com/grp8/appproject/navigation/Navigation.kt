@@ -24,7 +24,7 @@ fun Navigation(controller: NavHostController) {
         composable("Login") {
             Login(
                 service = BasicAuthClient(),
-                Ok = { name:String -> controller.navigate("Home?username="+name) },
+                Ok = { controller.navigate("Home") },
                 Signup = { controller.navigate("Signup") })
         }
 
@@ -61,11 +61,8 @@ fun Navigation(controller: NavHostController) {
             }
         }
 
-        composable(route = "Profile?username={username}",
-            arguments = listOf(
-                navArgument("username")
-                { defaultValue = "" }) )
-        { backStackEntry ->
+        composable(route = "Profile")
+        {
             ScreenScaffold(
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
@@ -73,15 +70,9 @@ fun Navigation(controller: NavHostController) {
                 Profile(
                     service = BasicAuthClient(),
                     cancel = { controller.navigate("Login") },
-                    findfavorites = {controller.navigate("Favorites")},
-                    username = backStackEntry.arguments?.getString("username") ?: "" )
+                    findfavorites = {controller.navigate("Favorites")})
             }
         }
-
-//         composable("SearchResults"){
-//             SearchResults(
-//                 cancel = { controller.navigate("Search") })
-//         }
 
         composable(route = "SearchResults?favorite={favorite}",
             arguments = listOf(

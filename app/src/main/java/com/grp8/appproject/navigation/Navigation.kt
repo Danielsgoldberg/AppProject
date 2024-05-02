@@ -12,6 +12,7 @@ import com.grp8.appproject.integrations.firestore.authentication.Login
 import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.ui.components.ScreenScaffold
 import com.grp8.appproject.ui.components.api.CocktailComponent
+import com.grp8.appproject.ui.screens.Favorites
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.screens.Search
@@ -23,7 +24,7 @@ fun Navigation(controller: NavHostController) {
         composable("Login") {
             Login(
                 service = BasicAuthClient(),
-                Ok = { controller.navigate("Home") },
+                Ok = { name:String -> controller.navigate("Home?username="+name) },
                 Signup = { controller.navigate("Signup") })
         }
 
@@ -60,14 +61,20 @@ fun Navigation(controller: NavHostController) {
             }
         }
 
-        composable("Profile") {
+        composable(route = "Profile?username={username}",
+            arguments = listOf(
+                navArgument("username")
+                { defaultValue = "" }) )
+        { backStackEntry ->
             ScreenScaffold(
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
                 Profile(
                     service = BasicAuthClient(),
-                    Cancel = { controller.navigate("Login") })
+                    cancel = { controller.navigate("Login") },
+                    findfavorites = {controller.navigate("Favorites")},
+                    username = backStackEntry.arguments?.getString("username") ?: "" )
             }
         }
 
@@ -75,6 +82,11 @@ fun Navigation(controller: NavHostController) {
              SearchResults(
                  cancel = { controller.navigate("Search") })
          }
+
+        composable("Favorites"){
+            Favorites (
+                cancel = {controller.navigate("Profile")})
+        }
 
         composable("IngredientList")
         {

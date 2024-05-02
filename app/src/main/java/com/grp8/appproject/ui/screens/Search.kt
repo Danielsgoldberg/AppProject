@@ -1,5 +1,6 @@
 package com.grp8.appproject.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -46,19 +47,17 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?) {
-    val alcohol = remember { mutableStateOf("") }
-    if (searchParameter!=null)
-    {
-        alcohol.value = searchParameter.toString()
-    }
+    val alcohol = remember { mutableStateOf(
+        if (searchParameter!=null)
+        {
+            searchParameter.toString()
+        }  else {
+            ""
+        }
+    ) }
     val mixer = remember { mutableStateOf("") }
     val additionalIngredient = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    //val searchResult = remember { mutableStateOf("") }
-
-//    fun find(){
-//        searchResult.value = "Searching for alcohol: ${alcohol.value}, mixer: ${mixer.value}"
-//    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +108,7 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                 ){
                     TextField(
                         value = alcohol.value,
-                        onValueChange = { newText -> alcohol.value = newText},
+                        onValueChange = { newText -> alcohol.value = newText },
                         placeholder = { Text("Enter ingredient")},
                         shape = RoundedCornerShape(16.dp)
                     )
@@ -146,17 +145,6 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                         }
                     }
                 }
-//                Row(
-//                    horizontalArrangement = Arrangement.Center,
-//                    modifier = Modifier.fillMaxWidth()
-//                ){
-//                    TextField(
-//                        value = mixer.value,
-//                        onValueChange = { newText -> mixer.value = newText},
-//                        placeholder = { Text("Enter specific mixer")},
-//                        shape = RoundedCornerShape(16.dp)
-//                    )
-//                }
                 Row(horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()){
                     Button(

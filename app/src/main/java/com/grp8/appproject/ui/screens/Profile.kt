@@ -24,7 +24,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
@@ -41,76 +42,114 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
             .fillMaxSize()
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
-        ){
-
-        Text(
-            text = "Profile",
-            color = Color.Black,
-            fontFamily = FontFamily.SansSerif,
-            fontSize = 48.sp,
-
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            textAlign = TextAlign.Center // Center the text horizontally
-        )
-            Divider(
-                color = Color.Black.copy(alpha = 0.35f),
-                thickness = 2.dp,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .fillMaxWidth()
-            )
-            Image(
-                painter = painterResource(id = R.drawable.profilepicture),
-                contentDescription = "ProfilePicture",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape)
-            )
-            Text(
-                text = "Username: $username",
-                color = Color.Black,
-                fontFamily = FontFamily.SansSerif,
-                fontSize = 27.sp,
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                textAlign = TextAlign.Center
-            )
-        }
-
-        Button(onClick = {
-            service.signOut()
-            cancel() }) {
-            Text(text = "Signout")
-        }
-    }
-
-    Column() {
-        Button(
-            onClick = {
-                scope.launch {
-                    findfavorites()
-                }
-            },
-            colors = ButtonDefaults.buttonColors(Color.White),
-            modifier = Modifier
-                .padding(8.dp)
-                .height(45.dp),
-            border = BorderStroke(width=0.5.dp, color = Color.Black),
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(text = "Favorties", color = Color.Black,
-                style = TextStyle(
-                    fontSize = 16.sp)
-            )
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            ) {
+                Box(modifier = Modifier.fillMaxWidth())
+                {
+                    Text(
+                        text = "Profile",
+                        color = Color.Black,
+                        fontFamily = FontFamily.SansSerif,
+                        fontSize = 48.sp,
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                    Divider(
+                        color = Color.Black.copy(alpha = 0.35f),
+                        thickness = 2.dp,
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .fillMaxWidth()
+                    )
+                }
+            }
+
+            Column(modifier = Modifier.align(Alignment.CenterStart))
+            {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                )
+                {
+                    Image(
+                        painter = painterResource(id = R.drawable.profilepicture),
+                        contentDescription = "ProfilePicture",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(150.dp)
+                            .clip(CircleShape)
+                    )
+                    Text(
+                        text = "Username: $username",
+                        color = Color.Black,
+                        fontFamily = FontFamily.SansSerif,
+                        fontSize = 27.sp,
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                {
+                    Button(onClick = {
+                        service.signOut()
+                        cancel()
+                    }) {
+                        Text(text = "Sign-out")
+                    }
+                }
+            }
+
+
+            Column(modifier = Modifier.align(Alignment.CenterStart))
+            {
+                Box {
+                    Divider(
+                        color = Color.Black.copy(alpha = 0.35f),
+                        thickness = 2.dp,
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .fillMaxWidth()
+                    )
+
+                    Button(
+                        onClick = {
+                            scope.launch {
+                                findfavorites()
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(Color.White),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .height(45.dp),
+                        border = BorderStroke(width = 0.5.dp, color = Color.Black),
+                    ) {
+                        Text(
+                            text = "Favorites", color = Color.Black,
+                            style = TextStyle(
+                                fontSize = 16.sp
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
-
-
 }
 
 

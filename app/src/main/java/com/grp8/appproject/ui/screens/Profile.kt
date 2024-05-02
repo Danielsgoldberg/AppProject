@@ -73,14 +73,6 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                             .align(Alignment.BottomStart)
                             .fillMaxWidth()
                     )
-                    Image(
-                        painter = painterResource(id = R.drawable.profilepicture),
-                        contentDescription = "ProfilePicture",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(150.dp)
-                            .clip(CircleShape)
-                    )
                 }
             }
 

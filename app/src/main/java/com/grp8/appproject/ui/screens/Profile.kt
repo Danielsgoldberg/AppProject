@@ -93,6 +93,11 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                             .size(150.dp)
                             .clip(CircleShape)
                     )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(
                         text = "Username: $username",
                         color = Color.Black,
@@ -104,51 +109,51 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                             .padding(16.dp),
                         textAlign = TextAlign.Center
                     )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                {
-                    Button(onClick = {
-                        service.signOut()
-                        cancel()
-                    }) {
-                        Text(text = "Sign-out")
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    {
+                        Button(onClick = {
+                            service.signOut()
+                            cancel()
+                        }) {
+                            Text(text = "Sign-out")
+                        }
                     }
                 }
-            }
 
 
-            Column(modifier = Modifier.align(Alignment.CenterStart))
-            {
-                Box {
-                    Divider(
-                        color = Color.Black.copy(alpha = 0.35f),
-                        thickness = 2.dp,
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .fillMaxWidth()
-                    )
-
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                findfavorites()
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(Color.White),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .height(45.dp),
-                        border = BorderStroke(width = 0.5.dp, color = Color.Black),
-                    ) {
-                        Text(
-                            text = "Favorites", color = Color.Black,
-                            style = TextStyle(
-                                fontSize = 16.sp
-                            )
+                Column()
+                {
+                    Box {
+                        Divider(
+                            color = Color.Black.copy(alpha = 0.35f),
+                            thickness = 2.dp,
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .fillMaxWidth()
                         )
+
+                        Button(
+                            onClick = {
+                                scope.launch {
+                                    findfavorites()
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(Color.White),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .height(45.dp),
+                            border = BorderStroke(width = 0.5.dp, color = Color.Black),
+                        ) {
+                            Text(
+                                text = "Favorites", color = Color.Black,
+                                style = TextStyle(
+                                    fontSize = 16.sp
+                                )
+                            )
+                        }
                     }
                 }
             }

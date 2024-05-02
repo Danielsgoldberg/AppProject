@@ -38,7 +38,7 @@ import com.grp8.appproject.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun Login(service:BasicAuthClient, Ok:(String) -> Unit, Signup:()->Unit){
+fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
     val email = remember { mutableStateOf("1234@hotmail.com") }
     val password = remember { mutableStateOf("567890") }
     val scope = rememberCoroutineScope()
@@ -108,7 +108,7 @@ fun Login(service:BasicAuthClient, Ok:(String) -> Unit, Signup:()->Unit){
                         val user = service.signIn(email.value, password.value)
                         Log.v("Login", "Test User: $user")
                         if (user.error == null) {
-                            Ok("")
+                            Ok()
                         } else {
                             throw LoginException("Invalid email or password.")
                         }

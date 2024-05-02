@@ -2,12 +2,16 @@ package com.grp8.appproject.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.grp8.appproject.integrations.firestore.authentication.BasicAuthClient
 import com.grp8.appproject.integrations.firestore.authentication.Login
 import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.ui.components.ScreenScaffold
+import com.grp8.appproject.ui.components.api.CocktailComponent
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.screens.Search
@@ -39,12 +43,20 @@ fun Navigation(controller: NavHostController) {
             }
         }
 
-        composable("Search") {
+        composable(route = "Search?drinksName={drinksName}",
+                   arguments = listOf(
+                       navArgument("drinksName")
+                        { defaultValue = "" })
+        ) { backStackEntry ->
             ScreenScaffold(
                 Search = { controller.navigate("Search") },
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
-                Search(find = {controller.navigate("SearchResults")})
+                Search(searchParameter = backStackEntry.arguments?.getString("drinksName") ?: "" ,
+                       find = {controller.navigate("SearchResults")},
+                       findIngredients = {
+                    controller.navigate("IngredientList")
+                })
             }
         }
 
@@ -63,6 +75,11 @@ fun Navigation(controller: NavHostController) {
              SearchResults(
                  cancel = { controller.navigate("Search") })
          }
+
+        composable("IngredientList")
+        {
+            CocktailComponent(backToSearch = {name: String -> controller.navigate("Search?drinksName="+name)})
+        }
 
     }
 }

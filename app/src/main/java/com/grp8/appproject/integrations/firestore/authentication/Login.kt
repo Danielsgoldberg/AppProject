@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -35,8 +39,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("1234@hotmail.com") }
+    val password = remember { mutableStateOf("567890") }
     val scope = rememberCoroutineScope()
     val errorMessage = remember { mutableStateOf<String?>(null) }
     Image(
@@ -76,7 +80,7 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation = PasswordVisualTransformation(),
                     shape = RoundedCornerShape(16.dp),
-                    placeholder = { Text("Password") },
+                    placeholder = { Text(text = "Password") },
                     modifier = Modifier
                         .padding(bottom = 30.dp)
                         .background(Color.White)
@@ -112,16 +116,18 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                         errorMessage.value = e.message
                     }
                 }
-            }) {
-                Text(text = "Login")
+            },
+                colors = ButtonDefaults.buttonColors(Color.White)) {
+                Text(text = "Login", color = Color.Black)
             }
+            Text(text = "Create user:", color = Color.Black, fontWeight = FontWeight.ExtraBold)
             Button(onClick = {
                 scope.launch {
                     Signup()
                 }
-            },
+            }, colors = ButtonDefaults.buttonColors(Color.White),
                 modifier = Modifier.padding(8.dp)) {
-                Text(text = "Signup")
+                Text(text = "Signup", color = Color.Black)
             }
         }
     }

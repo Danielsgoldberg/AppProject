@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.googleGmsServices)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -52,6 +53,16 @@ android {
 
 dependencies {
 
+    //KTOR
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+
+
     // Firebase
     //firebase
     implementation(platform(libs.google.firebase.bom))
@@ -59,6 +70,7 @@ dependencies {
     implementation(libs.google.firebase.auth)
     implementation(libs.google.android.gms.play.services)
     implementation(libs.google.firebase.storage)
+    implementation(libs.firebase.crashlytics.buildtools)
 
     val navVersion = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$navVersion")

@@ -1,6 +1,8 @@
 [versions]
 agp = "8.2.2"
 kotlin = "1.9.0"
+kotlinSerialization="1.9.0"
+ktor="2.3.9"
 coreKtx = "1.12.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -12,6 +14,7 @@ googlefirebase = "32.8.0"
 googleplayserviceauth = "21.0.0"
 googlegmsservices = "4.4.1"
 navigationRuntimeKtx = "2.7.7"
+firebaseCrashlyticsBuildtools = "2.9.9"
 [libraries]
 #Firebase
 google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "googlefirebase" }
@@ -20,6 +23,12 @@ google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 google-android-gms-play-services = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleplayserviceauth" }
 google-firebase-storage = { group = "com.google.firebase", name = "firebase-storage" }
 
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -36,8 +45,10 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 googleGmsServices = { id = "com.google.gms.google-services", version.ref = "googlegmsservices" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}

@@ -72,6 +72,11 @@ dependencies {
     implementation(libs.google.firebase.storage)
     implementation(libs.firebase.crashlytics.buildtools)
 
+    // coil
+    implementation(libs.coil)
+    implementation(libs.coilcompose)
+
+
     val navVersion = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$navVersion")
     implementation("com.google.android.material:material:1.5.0")

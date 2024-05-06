@@ -15,7 +15,6 @@ import androidx.navigation.compose.rememberNavController
 import com.grp8.appproject.integrations.firestore.authentication.BasicAuthClient
 import com.grp8.appproject.integrations.firestore.authentication.Login
 import com.grp8.appproject.navigation.Navigation
-import com.grp8.appproject.ui.screens.Cocktails
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.theme.AppProjectTheme

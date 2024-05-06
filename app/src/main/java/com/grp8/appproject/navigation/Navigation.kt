@@ -11,12 +11,13 @@ import com.grp8.appproject.integrations.firestore.authentication.BasicAuthClient
 import com.grp8.appproject.integrations.firestore.authentication.Login
 import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.ui.components.ScreenScaffold
-import com.grp8.appproject.ui.components.api.CocktailComponent
+import com.grp8.appproject.ui.components.api.DrinksComponent
+import com.grp8.appproject.ui.screens.CocktailsList
 import com.grp8.appproject.ui.screens.Favorites
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
+import com.grp8.appproject.ui.screens.CocktailsList
 import com.grp8.appproject.ui.screens.Search
-import com.grp8.appproject.ui.screens.SearchResults
 
 @Composable
 fun Navigation(controller: NavHostController) {
@@ -79,8 +80,8 @@ fun Navigation(controller: NavHostController) {
                 navArgument("favorite")
                 { defaultValue = "" })
         ) { backStackEntry ->
-            SearchResults(
-                cancel = { controller.navigate("Search") },
+            CocktailsList(
+                goBack = { controller.navigate("Search") },
                 favoriteParameter = backStackEntry.arguments?.getString("favorite") ?: "" )
         }
 
@@ -91,7 +92,7 @@ fun Navigation(controller: NavHostController) {
 
         composable("IngredientList")
         {
-            CocktailComponent(backToSearch = {name: String -> controller.navigate("Search?drinksName="+name)})
+            DrinksComponent(backToSearch = {name: String -> controller.navigate("Search?drinksName="+name)})
         }
 
     }

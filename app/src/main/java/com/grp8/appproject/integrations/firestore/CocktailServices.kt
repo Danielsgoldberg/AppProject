@@ -2,9 +2,9 @@ package com.grp8.appproject.integrations.firestore
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.grp8.appproject.integrations.firestore.model.Cocktail
 import com.grp8.appproject.integrations.firestore.model.CocktailCreateFS
 import com.grp8.appproject.integrations.firestore.model.CocktailFS
-import com.grp8.appproject.integrations.firestore.model.IngredientFS
 import kotlinx.coroutines.tasks.await
 
 class CocktailServices {
@@ -24,12 +24,12 @@ class CocktailServices {
             }
         }
 
-        suspend fun getCocktail(id: String): CocktailFS? {
-            val cocktail = db.collection("Cocktails").document(id).get().await()
-            if (cocktail.exists()) {
-                return cocktail.toObject<CocktailFS>()
-            }
-            return null
+        suspend fun getCocktail(id: String): Cocktail? {
+            val cocktailRef = db.collection("Cocktails").document(id)
+            val cocktailFS = cocktailRef.get().await().toObject<CocktailFS>()
+            cocktailFS?.id = cocktailRef.id
+            return cocktailFS?.ToCocktail()
         }
+
 
     }

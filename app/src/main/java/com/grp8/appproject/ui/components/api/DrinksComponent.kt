@@ -26,7 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun CocktailComponent(backToSearch:(String) -> Unit)
+fun DrinksComponent(backToSearch:(String) -> Unit)
 {
     val scope = rememberCoroutineScope()
     val ktorService = KtorClient()

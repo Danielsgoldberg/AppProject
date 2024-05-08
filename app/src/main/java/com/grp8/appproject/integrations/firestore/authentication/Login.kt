@@ -15,11 +15,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,14 +32,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grp8.appproject.R
+import com.grp8.appproject.ui.screens.NewCocktailsList
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.remember as remember1
 
 @Composable
 fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
-    val email = remember { mutableStateOf("1234@hotmail.com") }
-    val password = remember { mutableStateOf("567890") }
+    val email = remember1 { mutableStateOf("1234@hotmail.com") }
+    val password = remember1 { mutableStateOf("567890") }
     val scope = rememberCoroutineScope()
-    val errorMessage = remember { mutableStateOf<String?>(null) }
+    val errorMessage = remember1 { mutableStateOf<String?>(null) }
     Image(
         modifier = Modifier
             .fillMaxSize()
@@ -96,6 +95,7 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
             Button(onClick = {
                 scope.launch {
                     try {
+
                         if (email.value.isBlank() && password.value.isBlank()) {
                             throw LoginException("Email and password cannot be empty.")
 

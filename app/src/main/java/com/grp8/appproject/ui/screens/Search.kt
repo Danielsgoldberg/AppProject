@@ -1,5 +1,6 @@
 package com.grp8.appproject.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -41,7 +42,7 @@ import androidx.compose.foundation.layout.height
 
 
 @Composable
-fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?) {
+fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit, searchParameter: String?) {
     val alcohol = remember { mutableStateOf(
         if (searchParameter!=null)
         {
@@ -50,6 +51,7 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
             ""
         }
     ) }
+    val searchIngredient = searchParameter
     val mixer = remember { mutableStateOf("") }
     val additionalIngredient = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -147,7 +149,23 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
                     Button(
                         onClick = {
                             scope.launch {
-                                find()
+                                find(searchParameter)
+
+                                if (searchParameter != null) {
+                                    Log.v("SearchParameter", searchParameter)
+                                } else
+                                {
+                                    Log.v("Search Parameter", "Is null")
+                                }
+                                if (searchIngredient != null) {
+                                    Log.v("search ingredietn", searchIngredient)
+                                }
+                                else
+                                {
+                                    Log.v("Search Ingredient", "Is null")
+                                }
+
+
                             }
                         },
                         colors = ButtonDefaults.buttonColors(Color.White),
@@ -182,6 +200,7 @@ fun Search(find:() -> Unit, findIngredients:() -> Unit, searchParameter: String?
         }
     }
 }
+
 
 
 

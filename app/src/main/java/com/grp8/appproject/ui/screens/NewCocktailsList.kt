@@ -1,4 +1,5 @@
 package com.grp8.appproject.ui.screens
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -36,14 +38,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import com.grp8.appproject.R
 import com.grp8.appproject.integrations.firestore.CocktailServices
 import com.grp8.appproject.integrations.firestore.model.Cocktail
 import kotlinx.coroutines.launch
 import loadImageFromUri
 
+
 @Composable
-fun NewCocktailsList(cocktailServices: CocktailServices, goBack:() -> Unit) {
+fun NewCocktailsList(cocktailServices: CocktailServices, goBack: () -> Unit, searchIngredient: String) {
     // Mutable state to hold the list of cocktails
     val cocktailsState = remember { mutableStateOf<List<Cocktail>>(emptyList()) }
     val scope = rememberCoroutineScope()
@@ -53,13 +59,32 @@ fun NewCocktailsList(cocktailServices: CocktailServices, goBack:() -> Unit) {
         val cocktails = cocktailServices.getCocktails().map { it.ToCocktail() }
         cocktailsState.value = cocktails
     }
+
+    // Filter cocktails with spirit equal to "Vodka"
+    val filteredCocktails = remember(cocktailsState.value) {
+        cocktailsState.value.filter { it.spirit == searchIngredient }
+
+    }
+    Log.v("hejsa",searchIngredient)
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
+        Column {
+            IconButton(onClick = {
+                scope.launch {
+                    goBack()
+                }
+            }) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "Back",
+                    tint = Color.Black
+                )
+            }
+        }
         Box(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             Image(
                 modifier = Modifier
@@ -95,68 +120,72 @@ fun NewCocktailsList(cocktailServices: CocktailServices, goBack:() -> Unit) {
                             .fillMaxWidth()
                     )
                 }
-                // Display the list of cocktails
-                DisplayCocktails(cocktailsState.value)
+                // Display the list of filtered cocktails
+                DisplayCocktails(filteredCocktails)
             }
         }
     }
-
 }
+
 @Composable
 fun DisplayCocktails(cocktails: List<Cocktail>) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(cocktails.size) { index ->
             val cocktail = cocktails[index]
 
-                        Box(
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .border(width = 0.5.dp, color = Color.Black)
-                                .background(color = Color.White)
-                        ) {
-                            Column {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = " ${cocktail.name}",
-                                        style = TextStyle(
-                                            color = MaterialTheme.colorScheme.onSurface,
-                                            fontSize = 24.sp,
-                                            fontWeight = FontWeight.Bold
-                                        ),
-                                        modifier = Modifier.weight(1f)
-                                    )
+            Box(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .border(width = 0.5.dp, color = Color.Black)
+                    .background(color = Color.White)
+            ) {
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = " ${cocktail.name}",
+                            style = TextStyle(
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier.weight(1f)
+                        )
 
-                                }
-                                Row {
-                                    loadImageFromUri(cocktail.image, "Drink Image")
-                                    Modifier.width(130.dp)
+                    }
+                    Row {
+                        loadImageFromUri(
+                            context = LocalContext.current,
+                            url = "${cocktail.image}",
+                            contentDescription = "Content",
+                            modifier = Modifier.width(130.dp),
+                            placeholderResId = R.drawable.loading
+                        )
+                        Log.v("Picture ID", "${cocktail.image}")
 
-                                    Column {
-                                        Text(
-                                            style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
-                                            modifier = Modifier.padding(8.dp),
-                                            text = "Spiritus: ${cocktail.spirit}"
-                                        )
-                                        Text(
-                                            style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
-                                            modifier = Modifier.padding(8.dp),
-                                            text = "Sodavand:  ${cocktail.mixer}"
-                                        )
+                        Column {
+                            Text(
+                                style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                                modifier = Modifier.padding(8.dp),
+                                text = "Spiritus: ${cocktail.spirit}"
+                            )
+                            Text(
+                                style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                                modifier = Modifier.padding(8.dp),
+                                text = "Sodavand:  ${cocktail.mixer}"
+                            )
 
-                                        Text(
-                                            style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
-                                            modifier = Modifier.padding(8.dp),
-                                            text = "Instruktion: \n ${cocktail.instruction} \n"
-                                        )
-                                    }
-                                }
-                            }
+                            Text(
+                                style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                                modifier = Modifier.padding(8.dp),
+                                text = "Instruktion: \n ${cocktail.instruction} \n"
+                            )
                         }
                     }
                 }
             }
-
-
+        }
+    }
+}

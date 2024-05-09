@@ -57,7 +57,7 @@ fun Navigation(controller: NavHostController) {
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
                 Search(searchParameter = backStackEntry.arguments?.getString("drinksName") ?: "" ,
-                       find = {controller.navigate("NewCocktailsList")},
+                       find = {searchIngredient: String? -> controller.navigate("newCocktailsList?searchIngredient=$searchIngredient")},
                        findIngredients = {
                     controller.navigate("IngredientList")
                 })
@@ -87,11 +87,14 @@ fun Navigation(controller: NavHostController) {
 //                favoriteParameter = backStackEntry.arguments?.getString("favorite") ?: "" )
 //        }
 
-        composable("NewCocktailsList")
-        {
+        composable("NewCocktailsList?searchIngredient={searchIngredient}",
+            arguments = listOf(
+                navArgument("searchIngredient")
+                { defaultValue = ""})
+        )   { backStackEntry ->
             NewCocktailsList(cocktailServices = CocktailServices(),
-                goBack = { controller.navigate("Search")})
-        }
+                goBack = { controller.navigate("Search")},
+                    searchIngredient = backStackEntry.arguments?.getString("searchIngredient") ?: "" ) }
 
         composable("Favorites"){
             Favorites (
@@ -100,7 +103,7 @@ fun Navigation(controller: NavHostController) {
 
         composable("IngredientList")
         {
-            DrinksComponent(backToSearch = {name: String -> controller.navigate("Search?drinksName="+name)})
+            DrinksComponent(backToSearch = {name: String -> controller.navigate("Search?drinksName=$name")})
         }
 
     }

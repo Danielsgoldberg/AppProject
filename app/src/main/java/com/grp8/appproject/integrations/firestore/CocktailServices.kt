@@ -27,7 +27,7 @@ class CocktailServices {
         suspend fun getCocktail(id: String): Cocktail? {
             val cocktailRef = db.collection("Cocktails").document(id)
             val cocktailFS = cocktailRef.get().await().toObject<CocktailFS>()
-            cocktailFS?.id = cocktailRef.id
+            cocktailFS?.id =  cocktailRef.id
             return cocktailFS?.ToCocktail()
         }
 

@@ -51,7 +51,7 @@ fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit,
             ""
         }
     ) }
-    val searchIngredient = searchParameter
+    var searchIngredient = alcohol.value
     val mixer = remember { mutableStateOf("") }
     val additionalIngredient = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -148,8 +148,9 @@ fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit,
                     modifier = Modifier.fillMaxWidth()){
                     Button(
                         onClick = {
+                            searchIngredient = alcohol.value
                             scope.launch {
-                                find(searchParameter)
+                                find(searchIngredient)
 
                                 if (searchParameter != null) {
                                     Log.v("SearchParameter", searchParameter)

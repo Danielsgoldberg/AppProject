@@ -1,5 +1,4 @@
 import android.content.Context
-import android.media.Image
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -12,7 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.grp8.appproject.R
 
@@ -31,11 +29,12 @@ fun loadImageFromUri(
     size: Dp? = null
 ) {
     val painter = rememberAsyncImagePainter(
-        ImageRequest.Builder(LocalContext.current).data(data = url).apply(block = fun ImageRequest.Builder.() {
-            placeholderResId?.let { placeholder(it) }
-            errorResId?.let { error(it) }
-            crossfade(crossfadeDuration)
-        }).build()
+        ImageRequest.Builder(LocalContext.current).data(data = url)
+            .apply(block = fun ImageRequest.Builder.() {
+                placeholderResId?.let { placeholder(it) }
+                errorResId?.let { error(it) }
+                crossfade(crossfadeDuration)
+            }).build()
     )
 
     return Image(
@@ -48,6 +47,7 @@ fun loadImageFromUri(
         colorFilter = null, // No color filter
     )
 }
+
 @Preview
 @Composable
 fun ImagePreview() {

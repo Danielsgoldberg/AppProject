@@ -26,8 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun DrinksComponent(backToSearch:(String) -> Unit)
-{
+fun DrinksComponent(backToSearch: (String) -> Unit) {
     val scope = rememberCoroutineScope()
     val ktorService = KtorClient()
     val data = remember { mutableStateOf(Drinks()) }
@@ -37,7 +36,7 @@ fun DrinksComponent(backToSearch:(String) -> Unit)
         delay(2000)
 
         val drinks = ktorService.get()
-        if(drinks != null)
+        if (drinks != null)
             data.value = drinks
         else
             data.value = Drinks()
@@ -49,14 +48,16 @@ fun DrinksComponent(backToSearch:(String) -> Unit)
     {
         onDispose { ktorService.close() }
     }
-    if(isLoading.value)
-    {
-        Box (
+    if (isLoading.value) {
+        Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxWidth(0.4f)
-            )
+        )
         {
-            CircularProgressIndicator(color = androidx.compose.ui.graphics.Color.Black, strokeWidth = 5.dp)
+            CircularProgressIndicator(
+                color = androidx.compose.ui.graphics.Color.Black,
+                strokeWidth = 5.dp
+            )
         }
 
     } else {
@@ -64,14 +65,15 @@ fun DrinksComponent(backToSearch:(String) -> Unit)
             IconButton(onClick = {
                 scope.launch {
                     backToSearch("")
-                }}) {
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
                     contentDescription = "Back",
                     tint = Color.Black
                 )
             }
-            LazyColumn{
+            LazyColumn {
                 items(data.value.drinks) {
                     Log.v("Ktor Test", it.toString())
                     IngredientItem(it, backToSearch = backToSearch)

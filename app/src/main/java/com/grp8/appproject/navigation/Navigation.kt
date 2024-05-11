@@ -14,7 +14,7 @@ import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.ui.components.ScreenScaffold
 import com.grp8.appproject.ui.components.api.DrinksComponent
 import com.grp8.appproject.ui.screens.CocktailsList
-import com.grp8.appproject.ui.screens.Favorites
+
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
 import com.grp8.appproject.ui.screens.CocktailsList
@@ -57,7 +57,7 @@ fun Navigation(controller: NavHostController) {
                 Home = { controller.navigate("Home") },
                 Profile = { controller.navigate("Profile") }) {
                 Search(searchParameter = backStackEntry.arguments?.getString("drinksName") ?: "" ,
-                       find = {searchIngredient: String? -> controller.navigate("newCocktailsList?searchIngredient=$searchIngredient")},
+                       find = {searchSpirit: String?, searchMixer: String? -> controller.navigate("newCocktailsList?searchSpirit=$searchSpirit&searchMixer=$searchMixer")},
                        findIngredients = {
                     controller.navigate("IngredientList")
                 })
@@ -87,19 +87,18 @@ fun Navigation(controller: NavHostController) {
 //                favoriteParameter = backStackEntry.arguments?.getString("favorite") ?: "" )
 //        }
 
-        composable("NewCocktailsList?searchIngredient={searchIngredient}",
+        composable("NewCocktailsList?searchSpirit={searchSpirit}&searchMixer={searchMixer}",
             arguments = listOf(
-                navArgument("searchIngredient")
-                { defaultValue = ""})
+                navArgument("searchSpirit")
+                { defaultValue = "" },
+                navArgument("searchMixer")
+                { defaultValue = "" })
         )   { backStackEntry ->
             NewCocktailsList(cocktailServices = CocktailServices(),
                 goBack = { controller.navigate("Search")},
-                    searchIngredient = backStackEntry.arguments?.getString("searchIngredient") ?: "" ) }
+                    searchSpirit = backStackEntry.arguments?.getString("searchSpirit") ?: "" ,
+                    searchMixer = backStackEntry.arguments?.getString("searchMixer") ?:"" ) }
 
-        composable("Favorites"){
-            Favorites (
-                cancel = {controller.navigate("Profile")})
-        }
 
         composable("IngredientList")
         {

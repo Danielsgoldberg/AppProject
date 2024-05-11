@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -37,30 +38,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grp8.appproject.R
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.layout.height
-
 
 
 @Composable
-fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit, searchParameter: String?) {
-    val alcohol = remember { mutableStateOf(
-        if (searchParameter!=null)
-        {
-            searchParameter.toString()
-        }  else {
-            ""
-        }
-    ) }
-    var searchIngredient = alcohol.value
+fun Search(
+    find: (searchSpirit: String?, searchMixer: String?) -> Unit,
+    findIngredients: () -> Unit,
+    searchParameter: String?
+) {
+    val alcohol = remember {
+        mutableStateOf(
+            if (searchParameter != null) {
+                searchParameter.toString()
+            } else {
+                ""
+            }
+        )
+    }
+    var searchSpirit = alcohol.value
     val mixer = remember { mutableStateOf("") }
     val additionalIngredient = remember { mutableStateOf(false) }
+    var searchMixer = mixer.value
     val scope = rememberCoroutineScope()
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Box(modifier = Modifier
-            .fillMaxSize()){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
             Image(
                 modifier = Modifier
                     .fillMaxSize()
@@ -104,29 +111,33 @@ fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp)
-                ){
+                ) {
                     TextField(
                         value = alcohol.value,
                         onValueChange = { newText -> alcohol.value = newText },
-                        placeholder = { Text("Enter ingredient")},
+                        placeholder = { Text("Enter an alcoholic spirit") },
                         shape = RoundedCornerShape(16.dp)
                     )
                 }
                 if (additionalIngredient.value) {
-                    Row(horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth()){
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         TextField(
                             value = mixer.value,
-                            onValueChange = { newText -> mixer.value = newText},
-                            placeholder = { Text("Enter another ingredient")},
+                            onValueChange = { newText -> mixer.value = newText },
+                            placeholder = { Text("Enter a mixer") },
                             shape = RoundedCornerShape(16.dp)
                         )
                     }
                 } else {
-                    Row(horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth()){
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Text(
-                            text = "Add ingredient:",
+                            text = "Add Mixer:",
                             modifier = Modifier.padding(4.dp, vertical = 13.dp),
                             style = TextStyle(
                                 fontSize = 18.sp,
@@ -137,32 +148,32 @@ fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit,
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Add ingredient",
+                                contentDescription = "Add a mixer",
                                 tint = Color.Black,
                                 modifier = Modifier.padding(8.dp),
                             )
                         }
                     }
                 }
-                Row(horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()){
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Button(
                         onClick = {
-                            searchIngredient = alcohol.value
+                            searchSpirit = alcohol.value
+                            searchMixer = mixer.value
                             scope.launch {
-                                find(searchIngredient)
+                                find(searchSpirit, searchMixer)
 
                                 if (searchParameter != null) {
                                     Log.v("SearchParameter", searchParameter)
-                                } else
-                                {
+                                } else {
                                     Log.v("Search Parameter", "Is null")
                                 }
-                                if (searchIngredient != null) {
-                                    Log.v("search ingredietn", searchIngredient)
-                                }
-                                else
-                                {
+                                if (searchMixer != null) {
+                                    Log.v("search mixer", searchMixer)
+                                } else {
                                     Log.v("Search Ingredient", "Is null")
                                 }
 
@@ -170,17 +181,23 @@ fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit,
                             }
                         },
                         colors = ButtonDefaults.buttonColors(Color.White),
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
                             .height(45.dp),
-                        border = BorderStroke(width=0.5.dp, color = Color.Black),
+                        border = BorderStroke(width = 0.5.dp, color = Color.Black),
                     ) {
-                        Text(text = "Search", color = Color.Black,
+                        Text(
+                            text = "Search", color = Color.Black,
                             style = TextStyle(
-                            fontSize = 16.sp))
+                                fontSize = 16.sp
+                            )
+                        )
                     }
                 }
-                Row(horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Button(
                         onClick = {
                             scope.launch {
@@ -188,13 +205,17 @@ fun Search(find:(searchIngredient: String?) -> Unit, findIngredients:() -> Unit,
                             }
                         },
                         colors = ButtonDefaults.buttonColors(Color.White),
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
                             .height(50.dp),
-                        border = BorderStroke(width=0.5.dp, color = Color.Black)
+                        border = BorderStroke(width = 0.5.dp, color = Color.Black)
                     ) {
-                        Text(text = "Find ingredients", color = Color.Black,
+                        Text(
+                            text = "Find ingredients", color = Color.Black,
                             style = TextStyle(
-                                fontSize = 16.sp))
+                                fontSize = 16.sp
+                            )
+                        )
                     }
                 }
             }

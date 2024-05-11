@@ -39,14 +39,14 @@ fun BottomBar(modifier: Modifier = Modifier, onClick: () -> Unit) {
                 tint = Color.White
             )
         }
-        IconButton(onClick = onClick ) {
+        IconButton(onClick = onClick) {
             Icon(
                 imageVector = Icons.Default.Home,
                 contentDescription = "Home",
                 tint = Color.White
             )
         }
-        IconButton(onClick = onClick ) {
+        IconButton(onClick = onClick) {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = "Account",
@@ -60,7 +60,7 @@ fun BottomBar(modifier: Modifier = Modifier, onClick: () -> Unit) {
 
 @Preview
 @Composable
-fun BottomBarPreview(){
+fun BottomBarPreview() {
     AppProjectTheme(darkTheme = true) {
         Row(modifier = Modifier.height(40.dp)) {
             BottomBar(modifier = Modifier.background(Color.Gray)) {

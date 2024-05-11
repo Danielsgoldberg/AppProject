@@ -1,4 +1,5 @@
 package com.grp8.appproject.ui.screens
+
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -35,12 +34,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.firebase.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.storage
 import com.grp8.appproject.R
 import com.grp8.appproject.integrations.firestore.CocktailServices
 import com.grp8.appproject.integrations.firestore.model.Cocktail
@@ -49,23 +44,44 @@ import loadImageFromUri
 
 
 @Composable
-fun NewCocktailsList(cocktailServices: CocktailServices, goBack: () -> Unit, searchIngredient: String) {
-    // Mutable state to hold the list of cocktails
+fun NewCocktailsList(
+    cocktailServices: CocktailServices,
+    goBack: () -> Unit,
+    searchSpirit: String,
+    searchMixer: String
+) {
+
     val cocktailsState = remember { mutableStateOf<List<Cocktail>>(emptyList()) }
     val scope = rememberCoroutineScope()
+    var filteredCocktails = listOf<Cocktail>()
 
-    // Fetch cocktails
+
     LaunchedEffect(key1 = Unit) {
-        val cocktails = cocktailServices.getCocktails().map { it.ToCocktail() }
+        val cocktails = cocktailServices.getCocktails().map { it.toCocktail() }
         cocktailsState.value = cocktails
     }
 
-    // Filter cocktails with spirit equal to "Vodka"
-    val filteredCocktails = remember(cocktailsState.value) {
-        cocktailsState.value.filter { it.spirit == searchIngredient }
+    if (searchSpirit != "" && searchMixer == "") {
 
+        filteredCocktails = remember(cocktailsState.value) {
+            cocktailsState.value.filter { it.spirit == searchSpirit }
+
+        }
+
+    } else if (searchMixer != "" && searchSpirit == "") {
+        filteredCocktails = remember(cocktailsState.value) {
+            cocktailsState.value.filter { it.mixer == searchMixer }
+
+        }
+    } else if (searchMixer != "" && searchSpirit != "") {
+        filteredCocktails = remember(cocktailsState.value) {
+            cocktailsState.value.filter { it.mixer == searchMixer && it.spirit == searchSpirit }
+
+        }
+    } else {
+        filteredCocktails = cocktailsState.value
     }
-    Log.v("hejsa",searchIngredient)
+    Log.v("hejsa", searchMixer)
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -120,7 +136,35 @@ fun NewCocktailsList(cocktailServices: CocktailServices, goBack: () -> Unit, sea
                             .fillMaxWidth()
                     )
                 }
-                // Display the list of filtered cocktails
+
+
+
+                if (filteredCocktails.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .border(width = 0.5.dp, color = Color.Black)
+                            .background(color = Color.White)
+                    ) {
+                        Column {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "No cocktail found with your search criteria",
+                                    style = TextStyle(
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    modifier = Modifier.weight(1f)
+                                )
+
+                            }
+                        }
+                    }
+                }
                 DisplayCocktails(filteredCocktails)
             }
         }
@@ -169,12 +213,12 @@ fun DisplayCocktails(cocktails: List<Cocktail>) {
                             Text(
                                 style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
                                 modifier = Modifier.padding(8.dp),
-                                text = "Spiritus: ${cocktail.spirit}"
+                                text = "${cocktail.spiritAmount} cl ${cocktail.spirit}"
                             )
                             Text(
                                 style = TextStyle(color = MaterialTheme.colorScheme.onSurface),
                                 modifier = Modifier.padding(8.dp),
-                                text = "Sodavand:  ${cocktail.mixer}"
+                                text = "${cocktail.mixerAmount} cl ${cocktail.mixer}"
                             )
 
                             Text(

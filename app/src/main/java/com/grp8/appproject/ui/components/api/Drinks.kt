@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 
 
 @kotlinx.serialization.Serializable
-data class Drinks (
+data class Drinks(
 
-  @SerialName("drinks" ) var drinks : List<Drink> = emptyList()
+    @SerialName("drinks") var drinks: List<Drink> = emptyList()
 
 )
 

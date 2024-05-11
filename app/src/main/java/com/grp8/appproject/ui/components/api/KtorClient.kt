@@ -1,5 +1,4 @@
 import android.util.Log
-import com.grp8.appproject.ui.components.api.Drink
 import com.grp8.appproject.ui.components.api.Drinks
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,19 +12,17 @@ import io.ktor.client.request.header
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 
 const val BASE_URL = "https://thecocktaildb.com/api/json/v1/1/list.php?i=list"
 
-class KtorClient
-{
+class KtorClient {
 
 
     private val client = HttpClient(Android) {
-        install(Logging){
+        install(Logging) {
             level = LogLevel.ALL
         }
 
@@ -42,8 +39,7 @@ class KtorClient
 
     }
 
-    suspend fun get(): Drinks?
-    {
+    suspend fun get(): Drinks? {
         return try {
             client.get {
                 url(BASE_URL)
@@ -55,8 +51,8 @@ class KtorClient
         }
 
     }
-    fun close()
-    {
+
+    fun close() {
         client.close()
     }
 

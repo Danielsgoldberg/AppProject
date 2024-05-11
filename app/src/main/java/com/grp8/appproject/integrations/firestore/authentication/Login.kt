@@ -24,20 +24,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grp8.appproject.R
-import com.grp8.appproject.ui.screens.NewCocktailsList
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.remember as remember1
 
 @Composable
-fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
+fun Login(service: BasicAuthClient, Ok: () -> Unit, Signup: () -> Unit) {
     val email = remember1 { mutableStateOf("1234@hotmail.com") }
     val password = remember1 { mutableStateOf("567890") }
     val scope = rememberCoroutineScope()
@@ -61,10 +58,10 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                 modifier = Modifier.padding(bottom = 30.dp),
                 fontFamily = FontFamily.Serif
             )
-            Row(){
+            Row() {
                 TextField(
                     value = email.value,
-                    onValueChange = {newText -> email.value = newText},
+                    onValueChange = { newText -> email.value = newText },
                     shape = RoundedCornerShape(16.dp),
                     placeholder = { Text("Email") },
                     modifier = Modifier
@@ -75,7 +72,7 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
             Row() {
                 TextField(
                     value = password.value,
-                    onValueChange = {newText -> password.value = newText},
+                    onValueChange = { newText -> password.value = newText },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation = PasswordVisualTransformation(),
                     shape = RoundedCornerShape(16.dp),
@@ -92,41 +89,45 @@ fun Login(service:BasicAuthClient, Ok:() -> Unit, Signup:()->Unit){
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            Button(onClick = {
-                scope.launch {
-                    try {
+            Button(
+                onClick = {
+                    scope.launch {
+                        try {
 
-                        if (email.value.isBlank() && password.value.isBlank()) {
-                            throw LoginException("Email and password cannot be empty.")
+                            if (email.value.isBlank() && password.value.isBlank()) {
+                                throw LoginException("Email and password cannot be empty.")
 
-                        } else if(email.value.isBlank()){
-                            throw LoginException("Email cannot be empty.")
-                        } else if(password.value.isBlank()){
-                            throw LoginException("Password cannot be empty.")
+                            } else if (email.value.isBlank()) {
+                                throw LoginException("Email cannot be empty.")
+                            } else if (password.value.isBlank()) {
+                                throw LoginException("Password cannot be empty.")
+                            }
+
+                            val user = service.signIn(email.value, password.value)
+                            Log.v("Login", "Test User: $user")
+                            if (user.error == null) {
+                                Ok()
+                            } else {
+                                throw LoginException("Invalid email or password.")
+                            }
+                        } catch (e: LoginException) {
+                            errorMessage.value = e.message
                         }
-
-                        val user = service.signIn(email.value, password.value)
-                        Log.v("Login", "Test User: $user")
-                        if (user.error == null) {
-                            Ok()
-                        } else {
-                            throw LoginException("Invalid email or password.")
-                        }
-                    } catch (e: LoginException) {
-                        errorMessage.value = e.message
                     }
-                }
-            },
-                colors = ButtonDefaults.buttonColors(Color.White)) {
+                },
+                colors = ButtonDefaults.buttonColors(Color.White)
+            ) {
                 Text(text = "Login", color = Color.Black)
             }
             Text(text = "Create user:", color = Color.Black, fontWeight = FontWeight.ExtraBold)
-            Button(onClick = {
-                scope.launch {
-                    Signup()
-                }
-            }, colors = ButtonDefaults.buttonColors(Color.White),
-                modifier = Modifier.padding(8.dp)) {
+            Button(
+                onClick = {
+                    scope.launch {
+                        Signup()
+                    }
+                }, colors = ButtonDefaults.buttonColors(Color.White),
+                modifier = Modifier.padding(8.dp)
+            ) {
                 Text(text = "Signup", color = Color.Black)
             }
         }

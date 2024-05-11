@@ -1,6 +1,5 @@
 package com.grp8.appproject.integrations.firestore.authentication
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
@@ -12,33 +11,33 @@ import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
 
 class BasicAuthClient() {
-    private val auth:FirebaseAuth = Firebase.auth
+    private val auth: FirebaseAuth = Firebase.auth
 
-    suspend fun signUp(email:String, password:String): BasicSignUpResult{
+    suspend fun signUp(email: String, password: String): BasicSignUpResult {
         return try {
             val user =
                 auth.createUserWithEmailAndPassword(email.toString(), password).await()?.user
-                    ?:return BasicSignUpResult(null,"UNKNOWN_ERROR")
+                    ?: return BasicSignUpResult(null, "UNKNOWN_ERROR")
             user.sendEmailVerification().await()
             BasicSignUpResult(
                 BasicUser(user.uid, user.email.toString()), null
             )
-        } catch(e:Exception){
-            BasicSignUpResult(null,e.message)
+        } catch (e: Exception) {
+            BasicSignUpResult(null, e.message)
         }
     }
 
-    suspend fun signIn(email:String, password:String): BasicSignInResult {
+    suspend fun signIn(email: String, password: String): BasicSignInResult {
         return try {
             val user = auth.signInWithEmailAndPassword(email.toString(), password).await()?.user
-                ?: return BasicSignInResult(null,"UNKNOWN_ERROR")
-            BasicSignInResult(BasicUser(user.uid, user.email.toString()),null)
-        } catch(e:Exception) {
-            if(e is CancellationException) throw e
-            if(e is FirebaseAuthException) {
-                BasicSignInResult(null,e.message)
+                ?: return BasicSignInResult(null, "UNKNOWN_ERROR")
+            BasicSignInResult(BasicUser(user.uid, user.email.toString()), null)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            if (e is FirebaseAuthException) {
+                BasicSignInResult(null, e.message)
             }
-            BasicSignInResult(null,e.message)
+            BasicSignInResult(null, e.message)
         }
     }
 

@@ -3,7 +3,6 @@ package com.grp8.appproject.integrations.firestore
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.grp8.appproject.integrations.firestore.model.Cocktail
-import com.grp8.appproject.integrations.firestore.model.CocktailCreateFS
 import com.grp8.appproject.integrations.firestore.model.CocktailFS
 import kotlinx.coroutines.tasks.await
 
@@ -11,9 +10,7 @@ class CocktailServices {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
 
-        suspend fun createCocktail(cocktail: CocktailCreateFS) {
-            db.collection("Cocktails").add(cocktail).await()
-        }
+
 
         suspend fun getCocktails(): List<CocktailFS> {
             val cocktails = db.collection("Cocktails").get().await()
@@ -28,7 +25,7 @@ class CocktailServices {
             val cocktailRef = db.collection("Cocktails").document(id)
             val cocktailFS = cocktailRef.get().await().toObject<CocktailFS>()
             cocktailFS?.id =  cocktailRef.id
-            return cocktailFS?.ToCocktail()
+            return cocktailFS?.toCocktail()
         }
 
 

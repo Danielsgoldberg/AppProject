@@ -1,5 +1,8 @@
 package com.grp8.appproject.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,16 +33,39 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import coil.compose.rememberImagePainter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.grp8.appproject.R
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.storage
 
 
 @Composable
 fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Unit) {
     val scope = rememberCoroutineScope()
     val username = Firebase.auth.currentUser?.email
+    val context = LocalContext.current
+    val storage = Firebase.storage
+
+    // Aktivitet til valg af billede fra brugerens enhed og modtage URI for det valgte billede
+    val imagePickLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            // Upload billedet til Firebase Storage
+            val imageRef = storage.reference.child("images/${username}/${System.currentTimeMillis()}")
+            val uploadTask = imageRef.putFile(uri)
+            uploadTask.addOnSuccessListener {
+                // Billedet blev uploadet succesfuldt
+                // Her kan implementeres logik til at opdatere brugerens profil med billedet
+            }.addOnFailureListener { exception ->
+                // Hvis der sker en fejl, hvad skal der så ske? Skal den give en besked?
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -133,6 +159,31 @@ fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Uni
                         )
                     }
                 }
+
+                //Launch: Knappen som starter aktiviteten til valg af billede
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Button(onClick = {
+                        imagePickLauncher.launch("image/*")
+                    }) {
+                        Text("Vælg billede")
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Button(onClick = {
+                        // Updatere billede til Firestore? Eller skal den kun hentes? forstår det ikke helt
+                        updateToFirestore();
+                    }) {
+                        Text("Opdatere profil")
+                    }
+                }
+
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()

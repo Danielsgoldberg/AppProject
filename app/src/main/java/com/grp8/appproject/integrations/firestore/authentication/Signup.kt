@@ -39,10 +39,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grp8.appproject.R
+import com.grp8.appproject.models.BasicUser
 import kotlinx.coroutines.launch
 
 @Composable
-fun Signup(service: BasicAuthClient, Ok: () -> Unit, Cancel: () -> Unit) {
+fun Signup(service: BasicAuthClient, Ok: (user:BasicUser) -> Unit, Cancel: () -> Unit) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val passwordVisible = remember { mutableStateOf(false) }
@@ -136,7 +137,7 @@ fun Signup(service: BasicAuthClient, Ok: () -> Unit, Cancel: () -> Unit) {
                             val user = service.signUp(email.value, password.value)
                             Log.v("Login", "Test User: $user")
                             if (user.error == null) {
-                                Ok()
+                                Ok(user.data!!)
                             } else {
                                 throw LoginException("Invalid email or password.")
                             }

@@ -30,11 +30,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grp8.appproject.R
+import com.grp8.appproject.models.BasicUser
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.remember as remember1
 
 @Composable
-fun Login(service: BasicAuthClient, Ok: () -> Unit, Signup: () -> Unit) {
+fun Login(service: BasicAuthClient, Ok: (user:BasicUser) -> Unit, Signup: () -> Unit) {
     val email = remember1 { mutableStateOf("1234@hotmail.com") }
     val password = remember1 { mutableStateOf("567890") }
     val scope = rememberCoroutineScope()
@@ -103,10 +104,10 @@ fun Login(service: BasicAuthClient, Ok: () -> Unit, Signup: () -> Unit) {
                                 throw LoginException("Password cannot be empty.")
                             }
 
-                            val user = service.signIn(email.value, password.value)
-                            Log.v("Login", "Test User: $user")
-                            if (user.error == null) {
-                                Ok()
+                            val signInResult = service.signIn(email.value, password.value)
+                            Log.v("Login", "Test User: $signInResult")
+                            if (signInResult.error == null) {
+                                Ok(signInResult.data!!)
                             } else {
                                 throw LoginException("Invalid email or password.")
                             }

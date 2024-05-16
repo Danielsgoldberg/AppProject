@@ -1,7 +1,9 @@
 package com.grp8.appproject.ui.screens
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,175 +32,93 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.grp8.appproject.R
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.storage
+import com.grp8.appproject.models.BasicUser
+import com.grp8.appproject.ui.components.TitleBox
+import com.grp8.appproject.ui.components.image.ImageEditor
+import com.grp8.appproject.ui.components.image.bitmapFromResource
 
 
 @Composable
-fun Profile(findfavorites:() -> Unit, service: BasicAuthClient, cancel:() -> Unit) {
-    val scope = rememberCoroutineScope()
-    val username = Firebase.auth.currentUser?.email
-    val context = LocalContext.current
-    val storage = Firebase.storage
+fun Profile(
+    user: BasicUser,
+    changeProfileImage:(uri:Uri)->Unit,
+    signOut: () -> Unit
+) {
+    var editing by remember { mutableStateOf(false) }
 
-    // Aktivitet til valg af billede fra brugerens enhed og modtage URI for det valgte billede
-    val imagePickLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        if (uri != null) {
-            // Upload billedet til Firebase Storage
-            val imageRef = storage.reference.child("images/${username}/${System.currentTimeMillis()}")
-            val uploadTask = imageRef.putFile(uri)
-            uploadTask.addOnSuccessListener {
-                // Billedet blev uploadet succesfuldt
-                // Her kan implementeres logik til at opdatere brugerens profil med billedet
-            }.addOnFailureListener { exception ->
-                // Hvis der sker en fejl, hvad skal der så ske? Skal den give en besked?
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
+    if (editing) {
+        ImageEditor(cancel = { editing = false }, useImage ={
+            changeProfileImage(it)
+            editing = false
+        })
+    } else {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-            ) {
-                Box(modifier = Modifier.fillMaxWidth())
-                {
-                    Text(
-                        text = "Profile",
-                        color = Color.Black,
-                        fontFamily = FontFamily.SansSerif,
-                        fontSize = 48.sp,
 
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Divider(
-                        color = Color.Black.copy(alpha = 0.35f),
-                        thickness = 2.dp,
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .fillMaxWidth()
-                    )
-                }
+            TitleBox("Profile")
+
+            AsyncImage(
+                modifier = Modifier
+                    .height(100.dp)
+                    .width(100.dp),
+                model = if (user.profileIcon == Uri.EMPTY) {
+                    bitmapFromResource(resId = R.drawable.default_picture)
+                } else {
+                    user.profileIcon
+                },
+                contentDescription = ""
+            )
+
+
+            Text(
+                text = "Username: ${user.displayName}",
+                color = Color.Black,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 22.sp,
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                textAlign = TextAlign.Center
+            )
+
+            Button(onClick = {
+                editing = true
+            }) {
+                Text("Pick a new picture")
             }
 
-            Column(modifier = Modifier.align(Alignment.CenterStart))
-            {
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                )
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.profilepicture),
-                        contentDescription = "ProfilePicture",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(150.dp)
-                            .clip(CircleShape)
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Username: $username",
-                        color = Color.Black,
-                        fontFamily = FontFamily.SansSerif,
-                        fontSize = 22.sp,
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textAlign = TextAlign.Center
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                findfavorites()
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(Color.White),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .height(45.dp),
-                        border = BorderStroke(width = 0.5.dp, color = Color.Black),
-                    ) {
-                        Text(
-                            text = "Favorites", color = Color.Black,
-                            style = TextStyle(
-                                fontSize = 16.sp
-                            )
-                        )
-                    }
-                }
-
-                //Launch: Knappen som starter aktiviteten til valg af billede
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Button(onClick = {
-                        imagePickLauncher.launch("image/*")
-                    }) {
-                        Text("Vælg billede")
-                    }
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Button(onClick = {
-                        // Updatere billede til Firestore? Eller skal den kun hentes? forstår det ikke helt
-                        updateToFirestore();
-                    }) {
-                        Text("Opdatere profil")
-                    }
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Button(onClick = {
-                        service.signOut()
-                        cancel()
-                    }) {
-                        Text(text = "Sign-out")
-                    }
-                }
+            Button(onClick = signOut) {
+                Text(text = "Sign-out")
             }
         }
+
     }
 }
+
+
 
 
 

@@ -93,7 +93,7 @@ fun Profile(
 
 
             Text(
-                text = "Username: ${user.displayName}",
+                text = "Username: ${user.email}",
                 color = Color.Black,
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 22.sp,

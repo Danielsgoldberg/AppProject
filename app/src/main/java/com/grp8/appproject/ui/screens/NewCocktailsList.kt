@@ -60,6 +60,7 @@ fun NewCocktailsList(
         val cocktails = cocktailServices.getCocktails().map { it.toCocktail() }
         cocktailsState.value = cocktails
         Log.v("Cocktails initial state", cocktails.count().toString())
+        //Her vil ve se mængden som er i vores Db i loggen
     }
 
     if (searchSpirit != "" && searchMixer == "") {

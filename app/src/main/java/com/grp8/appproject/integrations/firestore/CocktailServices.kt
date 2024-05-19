@@ -13,7 +13,7 @@ class CocktailServices {
 
 
         suspend fun getCocktails(): List<CocktailFS> {
-            val cocktails = db.collection("Cocktails").get().await()
+            val cocktails = db.collection("Drinks").get().await()
             return cocktails.documents.mapNotNull { document ->
                 val cocktail = document.toObject<CocktailFS>()
                 cocktail?.id = document.id // Assign the document ID to a property in the data class
@@ -22,7 +22,7 @@ class CocktailServices {
         }
 
         suspend fun getCocktail(id: String): Cocktail? {
-            val cocktailRef = db.collection("Cocktails").document(id)
+            val cocktailRef = db.collection("Drinks").document(id)
             val cocktailFS = cocktailRef.get().await().toObject<CocktailFS>()
             cocktailFS?.id =  cocktailRef.id
             return cocktailFS?.toCocktail()

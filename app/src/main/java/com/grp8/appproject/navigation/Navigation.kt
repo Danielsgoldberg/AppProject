@@ -18,11 +18,8 @@ import com.grp8.appproject.integrations.firestore.authentication.Signup
 import com.grp8.appproject.models.BasicUser
 import com.grp8.appproject.ui.components.ScreenScaffold
 import com.grp8.appproject.ui.components.api.DrinksComponent
-import com.grp8.appproject.ui.screens.CocktailsList
-
 import com.grp8.appproject.ui.screens.Home
 import com.grp8.appproject.ui.screens.Profile
-import com.grp8.appproject.ui.screens.CocktailsList
 import com.grp8.appproject.ui.screens.NewCocktailsList
 import com.grp8.appproject.ui.screens.Search
 import kotlinx.coroutines.launch
@@ -101,16 +98,6 @@ fun Navigation(controller: NavHostController) {
                 )
             }
         }
-
-//        composable(route = "SearchResults?favorite={favorite}",
-//            arguments = listOf(
-//                navArgument("favorite")
-//                { defaultValue = "" })
-//        ) { backStackEntry ->
-//            CocktailsList(
-//                goBack = { controller.navigate("Search") },
-//                favoriteParameter = backStackEntry.arguments?.getString("favorite") ?: "" )
-//        }
 
         composable(
             "NewCocktailsList?searchSpirit={searchSpirit}&searchMixer={searchMixer}",

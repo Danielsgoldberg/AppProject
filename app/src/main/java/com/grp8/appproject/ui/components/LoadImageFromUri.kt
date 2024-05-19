@@ -43,8 +43,8 @@ fun loadImageFromUri(
         modifier = modifier,
         contentScale = contentScale,
         alignment = Alignment.Center,
-        alpha = 1f, // Set alpha to 1f for full opacity
-        colorFilter = null, // No color filter
+        alpha = 1f,
+        colorFilter = null,
     )
 }
 

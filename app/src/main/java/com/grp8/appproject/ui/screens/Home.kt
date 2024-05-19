@@ -56,7 +56,7 @@ fun Home() {
                 text = "Welcome to Virtual Bartender",
                 color = Color.White,
                 fontFamily = FontFamily.Cursive,
-                fontSize = 48.sp, // Adjust the font size as needed
+                fontSize = 48.sp,
 
                 modifier = Modifier
                     .fillMaxWidth()

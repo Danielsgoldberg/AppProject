@@ -26,11 +26,11 @@ fun BottomBar(modifier: Modifier = Modifier, onClick: () -> Unit) {
         modifier = modifier.then(
             Modifier
                 .fillMaxWidth()
-                .height(56.dp) // Adjust the height as needed
+                .height(56.dp)
                 .background(Color.Transparent)
         ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround // Distribute icons evenly
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         IconButton(onClick = onClick) {
             Icon(

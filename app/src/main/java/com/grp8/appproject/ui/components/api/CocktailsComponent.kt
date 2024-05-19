@@ -35,13 +35,7 @@ import com.grp8.appproject.integrations.firestore.model.Cocktail
 
 @Composable
 fun CocktailsComponent(cocktail: Cocktail) {
-    var isFavorite by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
     val name = cocktail.name
-    val Spritus = cocktail.spirit
-    val amountSoda = "10"
-    val nameSoda = "Tonic"
-    val extra = "1 skive Agurk"
     val instruction = cocktail.instruction
     Column(
         modifier = Modifier
@@ -105,21 +99,6 @@ fun CocktailsComponent(cocktail: Cocktail) {
                                 ),
                                 modifier = Modifier.weight(1f)
                             )
-//                            IconButton(
-//                                onClick = {
-//                                    isFavorite = !isFavorite
-//                                    favoriteParameter == name
-//                                },
-//                                modifier = Modifier.padding(start = 4.dp)
-//                            ) {
-//                                Icon(
-//                                    imageVector = if (isFavorite) {
-//                                        Icons.Default.Favorite
-//                                    } else Icons.Default.FavoriteBorder,
-//                                    contentDescription = "Favorites",
-//                                    tint = Color.Black
-//                                )
-//                            }
                         }
                         Row {
                             AsyncImage(model = cocktail.image, contentDescription = "Image")
